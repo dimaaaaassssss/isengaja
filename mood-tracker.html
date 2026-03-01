@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jurnal Mental - Help moms</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="mood-tracker-body">
+    <!-- Navbar (Simplified for subpage) -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-leaf"></i> Help moms
+            </a>
+            <a href="index.html" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="tracker-container fade-in-up">
+        <header class="tracker-header">
+            <h1>Bagaimana perasaan Ibu hari ini?</h1>
+            <p>Jujur pada diri sendiri adalah langkah pertama mencintai dirimu. Tidak apa-apa jika hari ini terasa
+                berat.</p>
+        </header>
+
+        <section class="mood-input-section">
+            <div class="mood-selector">
+                <button class="mood-btn" data-mood="Hebat" data-color="mint-bg" data-icon="fa-face-laugh-beam">
+                    <div class="icon-wrap mint-bg"><i class="fa-solid fa-face-laugh-beam"></i></div>
+                    <span>Hebat</span>
+                </button>
+                <button class="mood-btn" data-mood="Tenang" data-color="purple-bg" data-icon="fa-face-smile">
+                    <div class="icon-wrap purple-bg"><i class="fa-solid fa-face-smile"></i></div>
+                    <span>Tenang</span>
+                </button>
+                <button class="mood-btn" data-mood="Biasa Saja" data-color="peach-bg" data-icon="fa-face-meh">
+                    <div class="icon-wrap peach-bg"><i class="fa-solid fa-face-meh"></i></div>
+                    <span>Biasa Saja</span>
+                </button>
+                <button class="mood-btn" data-mood="Lelah" data-color="pink-bg" data-icon="fa-face-tired">
+                    <div class="icon-wrap custom-orange-bg"><i class="fa-solid fa-face-tired"></i></div>
+                    <span>Lelah</span>
+                </button>
+                <button class="mood-btn" data-mood="Sedih / Cemas" data-color="pink-bg" data-icon="fa-face-sad-tear">
+                    <div class="icon-wrap pink-bg"><i class="fa-solid fa-face-sad-tear"></i></div>
+                    <span>Sedih/Cemas</span>
+                </button>
+            </div>
+
+            <div class="journal-input">
+                <label for="journal-notes">Ada yang ingin Ibu ceritakan hari ini? (Opsional)</label>
+                <textarea id="journal-notes"
+                    placeholder="Tuliskan keluh kesah, rasa syukur, atau apapun yang ada di pikiran Ibu... (Catatan ini pribadi dan hanya tersimpan di perangkat Ibu)"></textarea>
+            </div>
+
+            <button id="save-mood-btn" class="btn btn-primary btn-large w-100">Simpan Jurnal Hari Ini</button>
+        </section>
+
+        <!-- History Section -->
+        <section class="mood-history-section">
+            <div class="history-header">
+                <h2>Riwayat Perasaan Ibu</h2>
+                <p>Melihat kembali perjalanan emosimu membantu mengenali pola dan bangkit kembali.</p>
+            </div>
+
+            <div id="mood-history-list" class="history-list">
+                <!-- Data will be populated here via JS -->
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
