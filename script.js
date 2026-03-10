@@ -148,9 +148,41 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show Success & Reload List
             alert('Catatan perasaan berhasil disimpan! Terima kasih sudah bercerita.');
             loadHistory();
+            checkMoodTrend();
         });
+
+        // Check mood trend for recommendations
+        const checkMoodTrend = () => {
+            const recommendationSection = document.getElementById('recommendation-section');
+            if (!recommendationSection) return;
+
+            const history = JSON.parse(localStorage.getItem('moodHistory')) || [];
+
+            // Need at least 3 entries to identify a trend
+            if (history.length >= 3) {
+                let consecutiveNegativeCount = 0;
+                // Check the last 3 entries
+                for (let i = 0; i < 3; i++) {
+                    if (history[i].mood === 'Sedih / Cemas' || history[i].mood === 'Lelah') {
+                        consecutiveNegativeCount++;
+                    }
+                }
+
+                if (consecutiveNegativeCount === 3) {
+                    recommendationSection.style.display = 'block';
+                    // Trigger reflow for animation
+                    setTimeout(() => recommendationSection.classList.add('appear'), 100);
+                } else {
+                    recommendationSection.style.display = 'none';
+                    recommendationSection.classList.remove('appear');
+                }
+            } else {
+                recommendationSection.style.display = 'none';
+            }
+        };
 
         // Initial Load
         loadHistory();
+        checkMoodTrend();
     }
 });
