@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal & Pengingat - Help moms</title>
+    <meta name="description"
+        content="Atur jadwal harian, pengingat minum obat, dan timeline imunisasi bayi dengan mudah di Help moms.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="mood-tracker-body"> <!-- Reusing light background styling -->
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-leaf"></i> Help moms
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#beranda">Beranda</a></li>
+                <li><a href="index.html#fitur">Layanan</a></li>
+                <li><a href="edukasi.html">Edukasi</a></li>
+                <li><a href="index.html#komunitas">Komunitas</a></li>
+            </ul>
+            <a href="index.html#daftar" class="btn btn-outline">Daftar Sekarang</a>
+
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="tracker-container">
+        <!-- Header Section -->
+        <header class="tracker-header fade-in">
+            <h1>Jadwal & Pengingat</h1>
+            <p>Didesain untuk mengurangi beban pikiranmu. Fokus pada waktu saat ini, biarkan kami yang mengingat sisanya.</p>
+        </header>
+
+        <!-- Profil Bayi (Penentuan Timeline) -->
+        <section class="mood-input-section fade-in delay-1" id="profil-bayi-section">
+            <h3><i class="fa-solid fa-baby-carriage" style="color: var(--primary); margin-right: 10px;"></i> Profil Si Kecil</h3>
+            <p style="color: var(--gray-text); margin-bottom: 20px; font-size: 0.95rem;">Masukkan tanggal lahir bayi untuk menyesuaikan timeline imunisasi secara otomatis.</p>
+            
+            <div class="baby-profile-form">
+                <div class="input-group">
+                    <label for="baby-name">Nama Panggilan</label>
+                    <input type="text" id="baby-name" placeholder="Misal: Dedek Bayi">
+                </div>
+                <div class="input-group">
+                    <label for="baby-dob">Tanggal Lahir</label>
+                    <input type="date" id="baby-dob">
+                </div>
+                <button class="btn btn-primary" id="save-baby-profile">Simpan Profil</button>
+            </div>
+        </section>
+
+        <!-- Quick Log Actions -->
+        <section class="quick-log-section fade-in delay-2">
+            <h3 style="margin-bottom: 1.5rem;">Catat Cepat (Quick Log)</h3>
+            <div class="quick-log-grid">
+                <!-- Mom Care -->
+                <button class="quick-log-btn mom-care" data-action="minum" data-message="Hebat! Tetap terhidrasi sangat baik untuk pemulihan dan produksi ASI.">
+                    <div class="ql-icon"><i class="fa-solid fa-glass-water"></i></div>
+                    <span>Minum Air</span>
+                </button>
+                <button class="quick-log-btn mom-care" data-action="obat" data-message="Sudah minum obat/vitamin. Semoga lekas pulih!">
+                    <div class="ql-icon"><i class="fa-solid fa-pills"></i></div>
+                    <span>Minum Vitamin</span>
+                </button>
+                <!-- Baby Care -->
+                <button class="quick-log-btn baby-care" data-action="menyusui" data-message="Waktu menyusui tercatat. Momen yang indah bersamanya.">
+                    <div class="ql-icon"><i class="fa-solid fa-person-breastfeeding"></i></div>
+                    <span>Menyusui</span>
+                </button>
+                <button class="quick-log-btn baby-care" data-action="popok" data-message="Ganti popok selesai! Si Kecil kembali nyaman.">
+                    <div class="ql-icon"><i class="fa-solid fa-poop"></i></div>
+                    <span>Ganti Popok</span>
+                </button>
+                <button class="quick-log-btn sleep-care" data-action="tidur" data-message="Bayi sedang tidur. Ssst... Waktunya Ibu ikut beristirahat sejenak ya!">
+                    <div class="ql-icon"><i class="fa-solid fa-bed"></i></div>
+                    <span>Bayi Tidur</span>
+                </button>
+            </div>
+            
+            <!-- Toast Notification -->
+            <div id="toast-notification" class="toast hidden">
+                <i class="fa-solid fa-circle-check"></i>
+                <span id="toast-message">Notifikasi</span>
+            </div>
+        </section>
+
+        <!-- Timeline Imunisasi -->
+        <section class="timeline-section fade-in delay-3">
+            <div class="timeline-header">
+                <h3><i class="fa-solid fa-syringe" style="color: var(--accent-mint); margin-right: 10px;"></i> Timeline Imunisasi & Kontrol</h3>
+                <span class="baby-age-badge" id="baby-age-display">Usia Bayi: -</span>
+            </div>
+            
+            <div class="timeline-container" id="immunization-timeline">
+                <!-- Timeline items will be injected by JavaScript -->
+                <p class="empty-message">Silakan isi profil si kecil terlebih dahulu untuk memuat timeline imunisasi.</p>
+            </div>
+        </section>
+
+        <!-- Notification Audio Element -->
+        <audio id="notification-sound" preload="auto">
+            <source src="https://actions.google.com/sounds/v1/bells/glockenspiel_chime.ogg" type="audio/ogg">
+            <source src="https://actions.google.com/sounds/v1/bells/womans_voice_bell.ogg" type="audio/ogg">
+        </audio>
+
+    </main>
+
+    <!-- Modal Buat Janji -->
+    <div id="booking-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Buat Janji Dokter</h3>
+                <button class="close-modal-btn" id="close-modal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p id="booking-vaksin-name" style="font-weight: 600; color: var(--primary); margin-bottom: 1rem;"></p>
+                
+                <div class="input-group">
+                    <label for="booking-date">Tanggal Janji Temu</label>
+                    <input type="date" id="booking-date">
+                </div>
+                <div class="input-group">
+                    <label for="booking-time">Jam</label>
+                    <input type="time" id="booking-time">
+                </div>
+                <div class="input-group">
+                    <label for="booking-clinic">Nama Klinik / Dokter</label>
+                    <input type="text" id="booking-clinic" placeholder="Klinik Tumbuh Kembang">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="save-booking-btn" style="width: 100%;">Set Jadwal Pasti</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">
+                    <i class="fa-solid fa-leaf"></i> Help moms
+                </a>
+                <p>Dukungan nyata bagi ibu hebat dalam perjalanan terindah mereka.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="edukasi.html">Edukasi Nifas</a></li>
+                        <li><a href="mood-tracker.html">Tracker Ibu</a></li>
+                        <li><a href="jadwal.html">Jadwal & Pengingat</a></li>
+                        <li><a href="#">Forum Diskusi</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <h4>Tentang Kami</h4>
+                    <ul>
+                        <li><a href="#">Kisah Kami</a></li>
+                        <li><a href="#">Karir</a></li>
+                        <li><a href="#">Kontak</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Help moms. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="jadwal.js"></script>
+</body>
+
+</html>

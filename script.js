@@ -79,9 +79,93 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        let moodChartInstance = null;
+
+        const renderChart = (history) => {
+            const ctx = document.getElementById('moodChart');
+            if (!ctx) return;
+            
+            if (history.length === 0) {
+                if (moodChartInstance) {
+                    moodChartInstance.destroy();
+                }
+                return;
+            }
+
+            const moodScale = {
+                'Hebat': 5,
+                'Tenang': 4,
+                'Biasa Saja': 3,
+                'Lelah': 2,
+                'Sedih / Cemas': 1
+            };
+            
+            const chartData = [...history].reverse().slice(-7);
+            
+            const labels = chartData.map(item => {
+                const dateObj = new Date(item.date);
+                return dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+            });
+            
+            const dataPoints = chartData.map(item => moodScale[item.mood] || 3);
+            
+            if (moodChartInstance) {
+                moodChartInstance.destroy();
+            }
+            
+            moodChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Tingkat Perasaan',
+                        data: dataPoints,
+                        borderColor: '#ef78b7',
+                        backgroundColor: 'rgba(239, 120, 183, 0.2)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: '#ef78b7',
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 0.5,
+                            max: 5.5,
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) {
+                                    if (value === 5) return 'Hebat';
+                                    if (value === 4) return 'Tenang';
+                                    if (value === 3) return 'Biasa';
+                                    if (value === 2) return 'Lelah';
+                                    if (value === 1) return 'Sedih';
+                                    return '';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        };
+
         // Load and Parse History
         const loadHistory = () => {
             const history = JSON.parse(localStorage.getItem('moodHistory')) || [];
+            
+            if (typeof Chart !== 'undefined') {
+                renderChart(history);
+            }
+
             historyList.innerHTML = '';
 
             if (history.length === 0) {
