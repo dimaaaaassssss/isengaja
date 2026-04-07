@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk / Daftar - Help moms</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body class="login-body">
+    <div class="login-wrapper">
+        <a href="index.html" class="back-home-dummy"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+        
+        <div class="login-container" id="login-container">
+            <!-- Form Daftar -->
+            <div class="form-container sign-up-container">
+                <form action="index.html" method="get">
+                    <h1>Buat Akun</h1>
+                    <div class="social-container">
+                        <!-- Teks pembuka kecil -->
+                        <span>Bergabung bersama ribuan ibu hebat</span>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" name="fullname" autocomplete="name" placeholder="Nama Lengkap" required />
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" name="email" autocomplete="username" placeholder="Email" required />
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="password" autocomplete="new-password" placeholder="Password" id="signup-password" required />
+                        <i class="fa-regular fa-eye toggle-password" data-target="signup-password" title="Tampilkan Password"></i>
+                    </div>
+                    <button type="submit" class="btn btn-primary login-btn">Daftar Sekarang</button>
+                    <!-- Untuk mobile -->
+                    <p class="mobile-toggle">Sudah punya akun? <a href="#" id="mobile-signIn">Masuk</a></p>
+                </form>
+            </div>
+            
+            <!-- Form Masuk -->
+            <div class="form-container sign-in-container">
+                <form action="index.html" method="get">
+                    <h1>Masuk</h1>
+                    <div class="social-container">
+                        <span>Lanjutkan perjalanan nifas yang damai</span>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" name="email" autocomplete="username" placeholder="Email" required />
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="password" autocomplete="current-password" placeholder="Password" id="signin-password" required />
+                        <i class="fa-regular fa-eye toggle-password" data-target="signin-password" title="Tampilkan Password"></i>
+                    </div>
+                    <button type="submit" class="btn btn-primary login-btn">Masuk</button>
+                    <!-- Untuk mobile -->
+                    <p class="mobile-toggle">Belum punya akun? <a href="#" id="mobile-signUp">Daftar Gratis</a></p>
+                </form>
+            </div>
+            
+            <!-- Panel Overlay (The Sliding Part) -->
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <i class="fa-solid fa-leaf overlay-logo"></i>
+                        <h1>Selamat Datang Kembali!</h1>
+                        <p>Tetap terhubung bersama kami untuk memantau perjalanan nifas dan perkembangan mental yang lebih sehat.</p>
+                        <button class="ghost" id="signIn">Masuk</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <i class="fa-solid fa-leaf overlay-logo"></i>
+                        <h1>Halo, Ibu Hebat!</h1>
+                        <p>Mari jadikan masa nifas sebagai momen merawat diri. Daftar sekarang dan temukan kedamaianmu.</p>
+                        <button class="ghost" id="signUp">Daftar Gratis</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Khusus Login -->
+    <script>
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('login-container');
+        
+        // Versi Mobile
+        const mobileSignUp = document.getElementById('mobile-signUp');
+        const mobileSignIn = document.getElementById('mobile-signIn');
+
+        // Event listener untuk tombol Desktop
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+
+        // Event listener untuk tombol Mobile
+        if(mobileSignUp) {
+            mobileSignUp.addEventListener('click', (e) => {
+                e.preventDefault();
+                container.classList.add("right-panel-active");
+            });
+        }
+
+        if(mobileSignIn) {
+            mobileSignIn.addEventListener('click', (e) => {
+                e.preventDefault();
+                container.classList.remove("right-panel-active");
+            });
+        }
+
+        // Toggle Password Visibility
+        const togglePasswords = document.querySelectorAll('.toggle-password');
+        togglePasswords.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                    this.title = "Sembunyikan Password";
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                    this.title = "Tampilkan Password";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
